@@ -1,11 +1,14 @@
 import {createContext, useContext, PropsWithChildren } from "react";
 import {makeAutoObservable} from "mobx";
 import { SisuStore } from "./sisu/SisuStore.ts";
+import AuthStore from "./auth/AuthStore.ts";
 
 export class RootStore {
     sisuStore: SisuStore;
+    authStore: AuthStore;
   constructor() {
     this.sisuStore = new SisuStore(this);
+    this.authStore = new AuthStore(this);
     makeAutoObservable(this);
   }
 }

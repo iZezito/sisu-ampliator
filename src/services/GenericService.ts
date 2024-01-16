@@ -1,5 +1,6 @@
 import api from './config.ts';
 import {AxiosResponse} from "axios";
+import {Login} from "../stores/auth";
 
 // type CallbackFunction<T> = (response: AxiosResponse<T>) => void;
 class GenericService {
@@ -28,6 +29,10 @@ class GenericService {
 
     delete<T>(id: string): Promise<AxiosResponse<T>> {
         return api.delete<T>(`${this.endpoint}/${id}`);
+    }
+
+    login<T>(data: Login): Promise<AxiosResponse<T>> {
+        return api.post<T>(`${this.endpoint}/login`, data);
     }
 }
 

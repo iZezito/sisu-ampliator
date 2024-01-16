@@ -7,11 +7,10 @@ const GenericTable = <T extends Record<string, any>>({ title, data, loading }: G
                 title: key.toUpperCase(),
                 dataIndex: key as keyof T,
                 key: key,
-                ellipsis: true,
             }))
             : [];
 
-    return <Table columns={columns} dataSource={data} loading={loading}/>;
+    return <Table columns={columns} dataSource={data} loading={loading} title={() => title} scroll={{y: 600}}/>;
 };
 
 export default GenericTable;

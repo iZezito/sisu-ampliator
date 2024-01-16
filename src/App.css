@@ -25,12 +25,13 @@
     display: flex;
     align-self: center;
     align-items: center;
-    background-color: #535bf2;
-    position:relative;
     margin-left:auto;
     margin-right:auto;
+    background-color: aqua;
     padding-right:15px;
-    padding-left:15px
+    padding-left:15px;
+    max-width:100%;
+    width:100%;
 }
 @media (min-width: 476px){
     .container{
