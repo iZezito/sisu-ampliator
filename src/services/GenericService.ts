@@ -1,67 +1,33 @@
 import api from './config.ts';
 import {AxiosResponse} from "axios";
 
-type CallbackFunction<T> = (response: AxiosResponse<T>) => void;
+// type CallbackFunction<T> = (response: AxiosResponse<T>) => void;
 class GenericService {
-    // async getAll<T>(uri: string, loading: boolean, callback: CallbackFunction<T[]>): Promise<void> {
-    //     try {
-    //         const response = await api.get<T[]>(uri);
-    //         callback(response);
-    //     } catch (error) {
-    //         // Trate os erros aqui, se necessário
-    //         console.error('Erro na requisição:', error);
-    //     }
-    // }
 
-    async getAll<T>(uri: string, callback: CallbackFunction<T[]>): Promise<void> {
-        await api.get<T[]>(uri).then((response) => callback(response)).catch((error) => {
-            console.error('Erro na requisição:', error);
-        });
+    endpoint: string = '';
+
+    constructor(endpoint: string) {
+        this.endpoint = endpoint;
     }
 
-    async getOne<T>(uri: string, callback: CallbackFunction<T>): Promise<void> {
-        try {
-            const response = await api.get<T>(uri);
-            callback(response);
-        } catch (error) {
-            // Trate os erros aqui, se necessário
-            console.error('Erro na requisição:', error);
-        }
+    getAll<T>(): Promise<AxiosResponse<T[]>> {
+        return api.get<T[]>(this.endpoint);
     }
 
-    async create<T>(uri: string, data: T, callback: CallbackFunction<T>): Promise<void> {
-        try {
-            const response = await api.post<T>(uri, data);
-            callback(response);
-        } catch (error) {
-            // Trate os erros aqui, se necessário
-            console.error('Erro na requisição:', error);
-        }
+    getById<T>(id: string): Promise<AxiosResponse<T>> {
+        return api.get<T>(`${this.endpoint}/${id}`);
     }
 
-    async update<T>(uri: string, data: T, callback?: CallbackFunction<T>): Promise<void> {
-        try {
-            const response = await api.put<T>(uri, data);
-            if (callback) {
-                callback(response);
-            }
-
-        } catch (error) {
-            // Trate os erros aqui, se necessário
-            console.error('Erro na requisição:', error);
-        }
+    create<T>(data: T): Promise<AxiosResponse<T>> {
+        return api.post<T>(this.endpoint, data);
     }
 
-    async delete<T>(uri: string, callback?: CallbackFunction<T>): Promise<void> {
-        try {
-            const response = await api.delete<T>(uri);
-            if (callback) {
-                callback(response);
-            }
-        } catch (error) {
-            // Trate os erros aqui, se necessário
-            console.error('Erro na requisição:', error);
-        }
+    update<T>(id: string, data: T): Promise<AxiosResponse<T>> {
+        return api.put<T>(`${this.endpoint}/${id}`, data);
+    }
+
+    delete<T>(id: string): Promise<AxiosResponse<T>> {
+        return api.delete<T>(`${this.endpoint}/${id}`);
     }
 }
 

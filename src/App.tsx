@@ -14,7 +14,7 @@ const App: React.FC = observer(() => {
     }, [sisuStore]); // Adicionei sisuStore como dependência para evitar warnings
 
     return (
-        <div style={{ height: '100vh' , backgroundColor: '#FFF'}}>
+        <div className={'container'}>
             <GenericTable data={sisuStore.modalidades} loading={sisuStore.loading}/>
         </div>
     );
