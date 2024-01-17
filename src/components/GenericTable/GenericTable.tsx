@@ -10,7 +10,7 @@ const GenericTable = <T extends Record<string, any>>({ title, data, loading }: G
             }))
             : [];
 
-    return <Table columns={columns} dataSource={data} loading={loading} title={() => title} scroll={{y: 600}}/>;
+    return <Table columns={columns} dataSource={data} loading={loading} title={() => title} scroll={{y: 600, x:500}}/>;
 };
 
 export default GenericTable;

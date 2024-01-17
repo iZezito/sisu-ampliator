@@ -34,6 +34,14 @@ class GenericService {
     login<T>(data: Login): Promise<AxiosResponse<T>> {
         return api.post<T>(`${this.endpoint}/login`, data);
     }
+
+    getAllBySearch<T>(search: string): Promise<AxiosResponse<T[]>> {
+        return api.get<T[]>(`${this.endpoint}/${search}`);
+    }
+
+    getOneBySearch<T>(search: string): Promise<AxiosResponse<T>> {
+        return api.get<T>(`${this.endpoint}/${search}`);
+    }
 }
 
 export default GenericService;
