@@ -1,33 +1,37 @@
-import {Card, Col, Flex, Row} from "antd";
+import {Button, Card, Col, Divider, Flex} from "antd";
 import React from "react";
 import {CardProps} from "./index";
 import { Typography } from "antd";
 const { Text } = Typography;
 
-const CardOferta: React.FC<CardProps> = ({oferta}) => {
+const CardOferta: React.FC<CardProps> = ({oferta, loading}) => {
     return (
-        <Card title={'Teste'} style={{width: '28%', minWidth: 300}}>
+        <Card title={oferta?.no_curso} style={{width: '28%', minWidth: 300}} loading={loading}>
             <Flex vertical={false} gap="middle" align="center" justify={'space-between'}>
                 <Col>
                     <Text strong={true}>Grau</Text>
-                    <p>Teste</p>
+                    <p>{oferta?.no_grau}</p>
                 </Col>
                 <Col>
                     <Text strong={true}>Turno</Text>
-                    <p>Teste</p>
+                    <p>{oferta?.no_turno}</p>
                 </Col>
                 <Col>
                     <Text strong={true}>Código</Text>
-                    <p>Teste</p>
+                    <p>{oferta?.co_curso}</p>
                 </Col>
                 <Col>
                     <Text strong={true}>Ingresso</Text>
-                    <p>Teste</p>
+                    <p>2 Semestre</p>
                 </Col>
             </Flex>
+            <Divider type={'horizontal'}/>
             <Flex vertical={true}>
-                <Text strong={true}>Nome</Text>
-                <p>Teste</p>
+                <Text strong={true}>{oferta?.no_ies}</Text>
+                <Text strong={true}>{oferta?.no_campus}</Text>
+            </Flex>
+            <Flex vertical={true}>
+                <Button type={'text'} danger>Remover Opção</Button>
             </Flex>
         </Card>
     );

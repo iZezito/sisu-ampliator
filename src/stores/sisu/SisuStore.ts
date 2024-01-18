@@ -1,16 +1,16 @@
 import {makeAutoObservable} from "mobx";
 import {RootStore} from "../RootStore.tsx";
 import GenericService from "../../services/GenericService.ts";
-import {Cetegoria, OfertaCurso} from "./index";
+import {Categoria, OfertaCurso} from "./index";
 import {AxiosResponse} from "axios";
 export class SisuStore {
     sisuService: GenericService;
-    categorias: Cetegoria[] = [];
+    categorias: Categoria[] = [];
     ofertas: OfertaCurso[] = [];
     rootStore?: RootStore;
     loading: boolean = false;
 
-    constructor(rootStore?:RootStore) {
+    constructor(rootStore?: RootStore) {
         this.rootStore = rootStore;
         this.sisuService = new GenericService('sisu');
         makeAutoObservable(this, {rootStore: false});
@@ -18,7 +18,7 @@ export class SisuStore {
 
     async getCategorias() {
         this.loading = true;
-        await this.sisuService.getAllBySearch<Cetegoria>('categoria').then((response: AxiosResponse<Cetegoria[]>) => {
+        await this.sisuService.getAllBySearch<Categoria>('categoria').then((response: AxiosResponse<Categoria[]>) => {
             this.categorias = response.data;
             console.log('Modalidades:', this.categorias);
         }).catch((error) => {
@@ -28,9 +28,9 @@ export class SisuStore {
         });
     }
 
-    async getOfertas() {
+    async getOfertas(id: string) {
         this.loading = true;
-        await this.sisuService.getAllBySearch<OfertaCurso>('oferta').then((response: AxiosResponse<OfertaCurso[]>) => {
+        await this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`).then((response: AxiosResponse<OfertaCurso[]>) => {
             this.ofertas = response.data;
             console.log('Ofertas:', this.ofertas);
         }).catch((error) => {
@@ -38,5 +38,9 @@ export class SisuStore {
         }).finally(() => {
             this.loading = false;
         });
+    }
+
+    clearOfertas() {
+        this.ofertas = [];
     }
 }

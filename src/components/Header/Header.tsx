@@ -1,30 +1,13 @@
-import { Layout, Menu } from 'antd';
-import { Link } from 'react-router-dom'; // Importe Link se estiver usando React Router
-import React, { ReactNode } from 'react';
-import { FaHome } from 'react-icons/fa';
+import {Image, Row} from 'antd';
+import React from 'react';
 
-const { Header } = Layout;
-
-interface NavbarProps {
-    children?: ReactNode;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ children }) => {
+const Cabecalho: React.FC = () => {
     return (
-        <Header>
-            <Menu theme="dark" mode="horizontal" defaultSelectedKeys={['1']}>
-                <Menu.Item key="1" icon={<FaHome />}>
-                    <Link to="/">Home</Link> {/* Use Link se estiver usando React Router */}
-                </Menu.Item>
-                <Menu.Item key="2">
-                    <Link to="/profile">Profile</Link>
-                </Menu.Item>
-                <Menu.Item key="3">
-                    <Link to="/projects">Projects</Link>
-                </Menu.Item>
-            </Menu>
-            {children}
-        </Header>
+
+        <Row justify="center" style={{backgroundColor: '#029D8F'}}>
+            <Image width={200} src="https://logodownload.org/wp-content/uploads/2016/11/sisu-logo.png"
+                   preview={false}/>
+        </Row>
     );
 }
-export default Navbar;
+export default Cabecalho;

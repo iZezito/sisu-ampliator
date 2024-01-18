@@ -1,8 +1,12 @@
-export interface Cetegoria {
+export interface Categoria {
     id: string | number;
     label: string;
     chave: string;
     categoria: string;
+}
+export interface Search {
+    label: string;
+    value: string;
 }
 
 interface OfertaCurso {
@@ -48,4 +52,7 @@ interface OfertaCurso {
     co_curso_emec: string;
     ds_protocolo: string;
     ds_autenticidade: string;
+}
+
+interface Modalidade {
 }
