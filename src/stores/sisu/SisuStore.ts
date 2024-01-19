@@ -3,6 +3,8 @@ import {RootStore} from "../RootStore.tsx";
 import GenericService from "../../services/GenericService.ts";
 import {Categoria, OfertaCurso} from "./index";
 import {AxiosResponse} from "axios";
+import { message } from "antd";
+
 export class SisuStore {
     sisuService: GenericService;
     categorias: Categoria[] = [];
@@ -27,16 +29,22 @@ export class SisuStore {
     }
 
     async getOfertas(id: string) {
+        message.loading({content: 'Carregando ofertas...', key: 'ofertas', duration: 0});
         await this.fetchData(
             this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`),
             ofertas => {
                 this.ofertas = ofertas;
                 console.log('Ofertas:', ofertas);
+                message.success({content: 'Ofertas carregadas!', key: 'ofertas'});
+            },
+            () => {
+                message.error({content: 'Erro ao carregar ofertas!', key: 'ofertas'});
             }
         );
+
     }
 
-    async fetchData<T>(request: Promise<AxiosResponse<T>>, onSuccess: (data: T) => void) {
+    async fetchData<T>(request: Promise<AxiosResponse<T>>, onSuccess: (data: T) => void, onError?: () => void) {
         this.loading = true;
         try {
             const response = await request;
@@ -45,7 +53,9 @@ export class SisuStore {
             });
         } catch (error) {
             console.error('Erro na requisição:', error);
-            // Tratar ou lançar exceção, conforme necessário
+            if (onError) {
+                onError();
+            }
         } finally {
             runInAction(() => {
                 this.loading = false;
