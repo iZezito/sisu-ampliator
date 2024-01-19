@@ -4,9 +4,9 @@ import {CardProps} from "./index";
 import { Typography } from "antd";
 const { Text } = Typography;
 
-const CardOferta: React.FC<CardProps> = ({oferta, loading}) => {
+const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
     return (
-        <Card title={oferta?.no_curso} style={{width: '28%', minWidth: 300}} loading={loading}>
+        <Card title={oferta?.no_curso} style={{width: '28%', minWidth: 350}} loading={loading}>
             <Flex vertical={false} gap="middle" align="center" justify={'space-between'}>
                 <Col>
                     <Text strong={true}>Grau</Text>
@@ -31,7 +31,7 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading}) => {
                 <Text strong={true}>{oferta?.no_campus}</Text>
             </Flex>
             <Flex vertical={true}>
-                <Button type={'text'} danger>Remover Opção</Button>
+                <Button type={'text'} danger onClick={() => onButtonClick(oferta.co_oferta)}>Remover Opção</Button>
             </Flex>
         </Card>
     );

@@ -34,7 +34,7 @@ const Home: React.FC = observer(() => {
                         <Empty description={'Nenhuma oferta foi escolhida!'}/>
                     ) : (
                         sisuStore.ofertas.map((oferta: OfertaCurso) => (
-                            <CardOferta oferta={oferta} loading={false} key={oferta?.co_oferta}/>
+                            <CardOferta oferta={oferta} loading={false} key={oferta?.co_oferta} onButtonClick={sisuStore.removeOfertaPreferencia}/>
                         ))
                     )}
                 </Flex>
