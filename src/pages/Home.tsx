@@ -14,7 +14,7 @@ const Home: React.FC = observer(() => {
 
     useEffect(() => {
         const fetchData = async () => {
-            //await sisuStore.getOfertas('4');
+            await sisuStore.getMyOfertas();
         };
         fetchData();
     }, [sisuStore]);

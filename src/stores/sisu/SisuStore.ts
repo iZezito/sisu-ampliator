@@ -38,6 +38,16 @@ export class SisuStore {
 
     }
 
+    async getMyOfertas() {
+        await this.fetchData(
+            this.sisuService.getAllBySearch<OfertaCurso>('ofertas', this.getConfig()),
+            ofertas => {
+                this.ofertas = ofertas;
+                console.log('Ofertas:', ofertas);
+            }
+        );
+    }
+
     getConfig(): AxiosRequestConfig {
         return {
             headers: {

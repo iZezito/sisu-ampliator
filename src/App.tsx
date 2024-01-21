@@ -8,6 +8,7 @@ import OfertaSearch from "./pages/OfertaSearch.tsx";
 import CadastroUsuario from "./pages/CadastroUsuario.tsx";
 import {useRootStore} from "./stores/RootStore.tsx";
 import Login from "./pages/Login.tsx";
+import NotFoundPage from "./pages/NotFoundPage.tsx";
 
 const App: React.FC = observer(() => {
     const { authStore } = useRootStore();
@@ -20,8 +21,8 @@ const App: React.FC = observer(() => {
                     {authStore.isAuth && <Route path="/" element={<Home/>}/> }
                     {!authStore.isAuth && <Route path="*" element={<Login/>}/>}
                     {authStore.isAuth && <Route path="/addOferta" element={<OfertaSearch/>}/>}
-                    {authStore.isAuth && <Route path="/addUsuario" element={<CadastroUsuario/>}/>}
-                    {authStore.isAuth && <Route path="/editUsuario/:id" element={<CadastroUsuario/>}/>}
+                    {!authStore.isAuth && <Route path="/addUsuario" element={<CadastroUsuario/>}/>}
+                    {authStore.isAuth && <Route path="*" element={<NotFoundPage/>}/>}
                 </Routes>
             </BrowserRouter>
         </React.Fragment>
