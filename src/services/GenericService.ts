@@ -1,5 +1,5 @@
 import api from './config.ts';
-import {AxiosResponse} from "axios";
+import {AxiosRequestConfig, AxiosResponse} from "axios";
 import {Login} from "../stores/auth";
 
 // type CallbackFunction<T> = (response: AxiosResponse<T>) => void;
@@ -35,8 +35,8 @@ class GenericService {
         return api.post<T>(`${this.endpoint}/login`, data);
     }
 
-    getAllBySearch<T>(search: string): Promise<AxiosResponse<T[]>> {
-        return api.get<T[]>(`${this.endpoint}/${search}`);
+    getAllBySearch<T>(search: string, config: AxiosRequestConfig): Promise<AxiosResponse<T[]>> {
+        return api.get<T[]>(`${this.endpoint}/${search}`, config);
     }
 
     getOneBySearch<T>(search: string): Promise<AxiosResponse<T>> {

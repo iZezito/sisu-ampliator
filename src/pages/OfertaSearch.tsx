@@ -52,7 +52,8 @@ const OfertaSearch: React.FC = observer(() => {
         <TituloPagina>ADICIONAR OFERTAS</TituloPagina>
         <Flex gap="middle" wrap="wrap" justify="center">
           <AutoComplete
-              style={{ width: '40%' }}
+              className={'search-bar'}
+              style={{ width: '50%' }}
               options={options}
               onSelect={handleSelect}
               onSearch={handleSearch}

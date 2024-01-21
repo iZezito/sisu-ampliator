@@ -2,7 +2,7 @@ import {makeAutoObservable, runInAction} from "mobx";
 import {RootStore} from "../RootStore.tsx";
 import GenericService from "../../services/GenericService.ts";
 import {Categoria, OfertaCurso} from "./index";
-import {AxiosResponse} from "axios";
+import { AxiosRequestConfig, AxiosResponse} from "axios";
 import { message } from "antd";
 
 export class SisuStore {
@@ -20,7 +20,7 @@ export class SisuStore {
 
     async getCategorias() {
         await this.fetchData(
-            this.sisuService.getAllBySearch<Categoria>('categoria'),
+            this.sisuService.getAllBySearch<Categoria>('categoria', this.getConfig()),
             categorias => {
                 this.categorias = categorias;
                 console.log('Categorias:', categorias);
@@ -31,7 +31,7 @@ export class SisuStore {
     async getOfertas(id: string) {
         message.loading({content: 'Carregando ofertas...', key: 'ofertas', duration: 0});
         await this.fetchData(
-            this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`),
+            this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`, this.getConfig()),
             ofertas => {
                 this.ofertas = ofertas;
                 console.log('Ofertas:', ofertas);
@@ -44,12 +44,21 @@ export class SisuStore {
 
     }
 
+    getConfig(): AxiosRequestConfig {
+        return {
+            headers: {
+                Authorization: `Bearer ${this.rootStore?.authStore.token}`
+
+            }
+        }
+    }
+
     async fetchData<T>(request: Promise<AxiosResponse<T>>, onSuccess: (data: T) => void, onError?: () => void) {
         this.loading = true;
         try {
             const response = await request;
             runInAction(() => {
-                onSuccess(response.data);
+                onSuccess(response.data);   
             });
         } catch (error) {
             console.error('Erro na requisição:', error);
