@@ -1,9 +1,9 @@
 import React from 'react';
 import {Flex, Card, Col, Divider, Typography, Button} from 'antd';
-import {CardProps} from "./index";
+import { CardSearchProps} from "./index";
 const { Text } = Typography;
 
-const CardOfertaSearch: React.FC<CardProps> = ({ oferta, loading,onButtonClick }) => {
+const CardOfertaSearch: React.FC<CardSearchProps> = ({ oferta, loading,onButtonClick }) => {
     return (
         <Card title={oferta?.no_curso} style={{ width: '50%', minWidth: 350, marginTop:20 }} loading={loading}>
             <Flex vertical={true}>

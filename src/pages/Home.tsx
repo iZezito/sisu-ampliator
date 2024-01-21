@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {observer} from "mobx-react-lite";
 import {useRootStore} from "../stores/RootStore.tsx";
 import {Empty, Flex, FloatButton,Row, Spin} from "antd";
-import {DadosModalidade, OfertaCurso} from "../stores/sisu";
+import {DadosModalidade} from "../stores/sisu";
 import CardOferta from "../components/CardOferta/CardOferta.tsx";
 import {AiOutlinePlus} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
@@ -34,7 +34,7 @@ const Home: React.FC = observer(() => {
                         <Empty description={'Nenhuma oferta foi escolhida!'}/>
                     ) : (
                         sisuStore.minhasOfertas.map((dados: DadosModalidade) => (
-                            <CardOferta oferta={dados} loading={false} key={dados?.oferta.co_oferta} onButtonClick={sisuStore.removeOfertaPreferencia}/>
+                            <CardOferta oferta={dados} loading={false} key={dados?.oferta.co_oferta} onButtonClick={() => sisuStore.removeOfertaPreferencia(dados?.oferta.co_oferta)}/>
                         ))
                     )}
                 </Flex>

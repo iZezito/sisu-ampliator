@@ -53,7 +53,6 @@ export class SisuStore {
         return {
             headers: {
                 Authorization: `Bearer ${this.rootStore?.authStore.token}`
-
             }
         }
     }
@@ -76,17 +75,6 @@ export class SisuStore {
             });
         }
     }
-    //TODO: Implementar
-
-    // async insertOfertaPreferencia(id: string) {
-    //     message.loading({ content: 'Loading...', key: 'add-oferta' });
-    //     await this.sisuService.createBySearch(`oferta/create/${id}`, {}, this.getConfig()).then(() => {
-    //         message.success({ content: 'Oferta adicionada com sucesso!', key: 'add-oferta', duration: 2 });
-    //     }).catch((err) => {
-    //         message.error({ content: 'Erro ao adicionar oferta!', key: 'add-oferta', duration: 2 })
-    //         console.log(err);
-    //     });
-    // }
 
     async insertOfertaPreferencia(id: string) {
         message.loading({ content: 'Loading...', key: 'add-oferta' });
@@ -100,10 +88,18 @@ export class SisuStore {
             }
         );
     }
-
-    //TODO: Implementar
     async removeOfertaPreferencia(id: string) {
-        alert(`Oferta ${id} removida com sucesso!`);
+        message.loading({ content: 'Removendo oferta...', key: 'remove-oferta' });
+        await this.fetchData(
+            this.sisuService.delete(id, this.getConfig()),
+            () => {
+                message.success({ content: 'Oferta removida com sucesso!', key: 'remove-oferta', duration: 2 });
+                this.minhasOfertas = this.minhasOfertas.filter(oferta => oferta.oferta.co_oferta !== id);
+            },
+            () => {
+                message.error({ content: 'Erro ao remover oferta!', key: 'remove-oferta', duration: 2 });
+            }
+        );
     }
 
 
