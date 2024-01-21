@@ -1,7 +1,7 @@
-import {OfertaCurso} from "../../stores/sisu";
+import {DadosModalidade } from "../../stores/sisu";
 
 export interface CardProps {
-    oferta: OfertaCurso;
+    oferta: DadosModalidade
     loading?: boolean;
     onClick?: () => void;
     onButtonClick: (id: string) => void;

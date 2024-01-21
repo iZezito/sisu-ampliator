@@ -54,5 +54,29 @@ interface OfertaCurso {
     ds_autenticidade: string;
 }
 
-interface Modalidade {
+export interface Modalidade{
+    dia: Date;
+    co_oferta_modalidade: string;
+    co_oferta: string;
+    co_concorrencia: string;
+    no_concorrencia: string;
+    st_lei_ppi: string;
+    ds_documentacao: string | null;
+    qt_vagas: string;
+    qt_vagas_concorrencia: string;
+    qt_bonus_perc: string;
+    nu_nota_corte: string | null;
+    dt_nota_corte: string | null;
+    tp_mod_concorrencia: string;
+    tp_cota: string | null;
+    tp_salario_minimo: string | null;
+    nu_ordem: string;
+    titulo_modalidade: string;
+    titulo_renda: string;
+    titulo_cota: string | null;
+}
+
+export interface DadosModalidade {
+    oferta: OfertaCurso
+    historico: Modalidade[]
 }

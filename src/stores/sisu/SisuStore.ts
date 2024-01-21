@@ -1,13 +1,14 @@
 import {makeAutoObservable, runInAction} from "mobx";
 import {RootStore} from "../RootStore.tsx";
 import GenericService from "../../services/GenericService.ts";
-import {Categoria, OfertaCurso} from "./index";
+import {Categoria, DadosModalidade, OfertaCurso} from "./index";
 import { AxiosRequestConfig, AxiosResponse} from "axios";
 import { message } from "antd";
 export class SisuStore {
     sisuService: GenericService;
     categorias: Categoria[] = [];
     ofertas: OfertaCurso[] = [];
+    minhasOfertas: DadosModalidade[] = []
     rootStore?: RootStore;
     loading: boolean = false;
 
@@ -40,9 +41,9 @@ export class SisuStore {
 
     async getMyOfertas() {
         await this.fetchData(
-            this.sisuService.getAllBySearch<OfertaCurso>('ofertas', this.getConfig()),
+            this.sisuService.getAllBySearch<DadosModalidade>('ofertas', this.getConfig()),
             ofertas => {
-                this.ofertas = ofertas;
+                this.minhasOfertas = ofertas;
                 console.log('Ofertas:', ofertas);
             }
         );
