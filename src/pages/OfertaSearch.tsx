@@ -70,7 +70,7 @@ const OfertaSearch: React.FC = observer(() => {
               <Empty description={'Nenhuma oferta foi escolhida!'} />
           ) : (
               sisuStore.ofertas.map((oferta: OfertaCurso) => (
-                  <CardOfertaSearch oferta={oferta} loading={false} key={oferta?.co_oferta} onButtonClick={sisuStore.insertOfertaPreferencia}/>
+                  <CardOfertaSearch oferta={oferta} loading={false} key={oferta?.co_oferta} onButtonClick={() => sisuStore.insertOfertaPreferencia(oferta.co_oferta)}/>
               ))
           )}
         </Flex>

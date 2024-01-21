@@ -4,7 +4,6 @@ import GenericService from "../../services/GenericService.ts";
 import {Categoria, OfertaCurso} from "./index";
 import { AxiosRequestConfig, AxiosResponse} from "axios";
 import { message } from "antd";
-
 export class SisuStore {
     sisuService: GenericService;
     categorias: Categoria[] = [];
@@ -29,16 +28,11 @@ export class SisuStore {
     }
 
     async getOfertas(id: string) {
-        message.loading({content: 'Carregando ofertas...', key: 'ofertas', duration: 0});
         await this.fetchData(
             this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`, this.getConfig()),
             ofertas => {
                 this.ofertas = ofertas;
                 console.log('Ofertas:', ofertas);
-                message.success({content: 'Ofertas carregadas!', key: 'ofertas'});
-            },
-            () => {
-                message.error({content: 'Erro ao carregar ofertas!', key: 'ofertas'});
             }
         );
 
@@ -72,8 +66,28 @@ export class SisuStore {
         }
     }
     //TODO: Implementar
+
+    // async insertOfertaPreferencia(id: string) {
+    //     message.loading({ content: 'Loading...', key: 'add-oferta' });
+    //     await this.sisuService.createBySearch(`oferta/create/${id}`, {}, this.getConfig()).then(() => {
+    //         message.success({ content: 'Oferta adicionada com sucesso!', key: 'add-oferta', duration: 2 });
+    //     }).catch((err) => {
+    //         message.error({ content: 'Erro ao adicionar oferta!', key: 'add-oferta', duration: 2 })
+    //         console.log(err);
+    //     });
+    // }
+
     async insertOfertaPreferencia(id: string) {
-        alert(`Oferta ${id} inserida com sucesso!`);
+        message.loading({ content: 'Loading...', key: 'add-oferta' });
+        await this.fetchData(
+            this.sisuService.createBySearch(`oferta/create/${id}`, {}, this.getConfig()),
+            () => {
+                message.success({ content: 'Oferta adicionada com sucesso!', key: 'add-oferta', duration: 2 });
+            },
+            () => {
+                message.error({ content: 'Erro ao adicionar oferta!', key: 'add-oferta', duration: 2 });
+            }
+        );
     }
 
     //TODO: Implementar
@@ -87,35 +101,4 @@ export class SisuStore {
     clearOfertas() {
         this.ofertas = [];
     }
-    // async getCategorias() {
-    //     this.loading = true;
-    //     await this.sisuService.getAllBySearch<Categoria>('categoria').then((response: AxiosResponse<Categoria[]>) => {
-    //         runInAction(() => {
-    //             this.categorias = response.data;
-    //             console.log('Categorias:', this.categorias);
-    //         });
-    //     }).catch((error) => {
-    //         console.error('Erro na requisição:', error);
-    //     }).finally(() => {
-    //           runInAction(() => {
-    //              this.loading = false;
-    //           });
-    //     });
-    // }
-    //
-    // async getOfertas(id: string) {
-    //     this.loading = true;
-    //     await this.sisuService.getAllBySearch<OfertaCurso>(`curso/${id}`).then((response: AxiosResponse<OfertaCurso[]>) => {
-    //         runInAction(() => {
-    //             this.ofertas = response.data;
-    //             console.log('Ofertas:', this.ofertas);
-    //         });
-    //     }).catch((error) => {
-    //         console.error('Erro na requisição:', error);
-    //     }).finally(() => {
-    //        runInAction(() => {
-    //             this.loading = false;
-    //        });
-    //     });
-    // }
 }
