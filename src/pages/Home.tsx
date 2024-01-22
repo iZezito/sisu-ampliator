@@ -10,14 +10,17 @@ import TituloPagina from "../components/TituloPagina.tsx";
 
 const Home: React.FC = observer(() => {
     const navigate = useNavigate();
-    const {sisuStore} = useRootStore();
+    const {sisuStore, userStore} = useRootStore();
 
     useEffect(() => {
         const fetchData = async () => {
-            await sisuStore.getMyOfertas();
+            await Promise.all([
+                sisuStore.getMyOfertas(),
+                userStore.getMyNotas(),
+            ]);
         };
         fetchData();
-    }, [sisuStore]);
+    }, [sisuStore, userStore]);
 
     const navToAdd = () => {
         navigate('/addOferta');

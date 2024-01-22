@@ -13,7 +13,7 @@ const NotFoundPage: React.FC = () => {
     <Result
         status="404"
         title="404"
-        subTitle="Sorry, the page you visited does not exist."
+        subTitle=" A página que você está procurando não existe ou foi movida."
         extra={<Button type="primary" onClick={handleGoHome}>Ir para o início</Button>}
     />
     );

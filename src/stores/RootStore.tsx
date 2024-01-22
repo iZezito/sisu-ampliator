@@ -1,8 +1,9 @@
 import {createContext, useContext, PropsWithChildren } from "react";
-import {makeAutoObservable} from "mobx";
+import {makeAutoObservable, runInAction} from "mobx";
 import { SisuStore } from "./sisu/SisuStore.ts";
 import AuthStore from "./auth/AuthStore.ts";
 import UserStore from "./user/UserStore.ts";
+import {AxiosRequestConfig, AxiosResponse} from "axios";
 
 export class RootStore {
     sisuStore: SisuStore;
@@ -13,6 +14,33 @@ export class RootStore {
     this.authStore = new AuthStore(this);
     this.userStore = new UserStore(this);
     makeAutoObservable(this);
+  }
+
+  getConfig(): AxiosRequestConfig {
+    return {
+      headers: {
+        Authorization: `Bearer ${this.authStore?.token}`
+      }
+    }
+  }
+
+
+  async fetchData<T>(request: Promise<AxiosResponse<T>>, onSuccess: (data: T) => void, onError?: () => void, finallyCallback?: () => void) {
+    try {
+      const response = await request;
+      runInAction(() => {
+        onSuccess(response.data);
+      });
+    } catch (error) {
+      console.error('Erro na requisição:', error);
+      if (onError) {
+        onError();
+      }
+    } finally {
+        if(finallyCallback) {
+            finallyCallback();
+        }
+    }
   }
 }
 

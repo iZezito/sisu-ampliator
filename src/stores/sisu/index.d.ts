@@ -80,3 +80,4 @@ export interface DadosModalidade {
     oferta: OfertaCurso
     historico: Modalidade[]
 }
+

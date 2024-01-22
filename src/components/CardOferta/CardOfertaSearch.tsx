@@ -15,7 +15,7 @@ const CardOfertaSearch: React.FC<CardSearchProps> = ({ oferta, loading,onButtonC
             <Flex vertical={false} gap="middle" align="center">
                 <Col>
                     <Text>Total de Vagas</Text>
-                    <p style={{color:'#5ABA8E', fontWeight:'bold'}}>{oferta?.qt_vagas_sem1}</p>
+                    <p style={{color:'#5ABA8E', fontWeight:'bold'}}>{oferta?.qt_vagas_sem1 !== '0' ? oferta?.qt_vagas_sem1: oferta?.qt_vagas_sem2 }</p>
                 </Col>
                 <Col>
                     <Text>Ações Afirmativas</Text>

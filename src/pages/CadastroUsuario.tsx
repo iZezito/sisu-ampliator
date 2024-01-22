@@ -60,7 +60,7 @@ const CadastroUsuario: React.FC = observer(() => {
                         rules={[{ required: true, message: 'Por favor, insira sua pontuação em Ciências da Natureza!' }]}
                     >
                         <Input type="number" onChange={(e) => {
-                            userStore.changeFormData('cienciasNatureza', Number(e.target.value));
+                            userStore.changeFormData('cienciasNatureza', +e.target.value);
                         }}/>
                     </Form.Item>
 
@@ -70,7 +70,7 @@ const CadastroUsuario: React.FC = observer(() => {
                         rules={[{ required: true, message: 'Por favor, insira sua pontuação em Ciências Humanas!' }]}
                     >
                         <Input type="number" onChange={(e) => {
-                            userStore.changeFormData('cienciasHumanas', Number(e.target.value));
+                            userStore.changeFormData('cienciasHumanas', +e.target.value);
                         }}/>
                     </Form.Item>
 
@@ -80,7 +80,7 @@ const CadastroUsuario: React.FC = observer(() => {
                         rules={[{ required: true, message: 'Por favor, insira sua pontuação em Linguagens!' }]}
                     >
                         <Input type="number" onChange={(e) => {
-                            userStore.changeFormData('linguagens', Number(e.target.value ));
+                            userStore.changeFormData('linguagens', +e.target.value);
                         }}/>
                     </Form.Item>
 
@@ -90,7 +90,7 @@ const CadastroUsuario: React.FC = observer(() => {
                         rules={[{ required: true, message: 'Por favor, insira sua pontuação em Matemática!' }]}
                     >
                         <Input type="number" onChange={(e) => {
-                            userStore.changeFormData('matematica', Number(e.target.value));
+                            userStore.changeFormData('matematica', +e.target.value);
                         }}/>
                     </Form.Item>
 
@@ -100,7 +100,7 @@ const CadastroUsuario: React.FC = observer(() => {
                         rules={[{ required: true, message: 'Por favor, insira sua pontuação em Redação!' }]}
                     >
                         <Input type="number" onChange={(e) => {
-                            userStore.changeFormData('redacao', Number(e.target.value));
+                            userStore.changeFormData('redacao', +e.target.value);
                         }}/>
                     </Form.Item>
                     <Form.Item wrapperCol={{ offset: 0, span: 16 }}>

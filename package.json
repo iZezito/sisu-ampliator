@@ -12,9 +12,11 @@
   "dependencies": {
     "antd": "^5.12.6",
     "axios": "^1.6.5",
+    "chart.js": "^4.4.1",
     "mobx": "^6.12.0",
     "mobx-react-lite": "^4.0.5",
     "react": "^18.2.0",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-router-dom": "^6.21.1"
