@@ -16,7 +16,7 @@ import {
     Legend
 } from 'chart.js';
 import {useRootStore} from "../../stores/RootStore.tsx";
-import {Modalidade} from "../../stores/sisu";
+import {Modalidade, OfertaCurso} from "../../stores/sisu";
 
 ChartJS.register(
     CategoryScale,
@@ -29,8 +29,8 @@ ChartJS.register(
 );
 
 
-const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick, notas}) => {
-    const {sisuStore} = useRootStore();
+const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
+    const {sisuStore, userStore} = useRootStore();
     const [selectOptions, setSelectOptions] = useState<object[]>([]);
     const [selectValue, setSelectValue] = useState<string>('');
     const [dados, setDados] = useState<{ x: string, y: number }[]>(
@@ -59,8 +59,8 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick, notas}
             },
             y: {
                 beginAtZero: false,
-                max: media > dados.reduce((max, p) => p.y > max ? p.y : max, dados[0].y) + 10 ? media : dados.reduce((max, p) => p.y > max ? p.y : max, dados[0].y) + 10,
-                min: media < dados.reduce((min, p) => p.y < min ? p.y : min, dados[0].y) - 10 ? media : dados.reduce((min, p) => p.y < min ? p.y : min, dados[0].y) - 10,
+                max: media > dados.reduce((max, p) => p.y > max ? p.y : max, dados[0].y) + 10 ? media + 10 : dados.reduce((max, p) => p.y > max ? p.y : max, dados[0].y) + 10,
+                min: media < dados.reduce((min, p) => p.y < min ? p.y : min, dados[0].y) - 10 ? media - 10 : dados.reduce((min, p) => p.y < min ? p.y : min, dados[0].y) - 10,
             },
         },
     }; // Ajuste conforme necessário
@@ -99,6 +99,8 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick, notas}
                 label: modalidade.no_concorrencia
             }
         }));
+        setMedia(calcularPontuacaoPonderada(oferta?.oferta));
+        console.log(media);
         setOpen(true);
     }
 
@@ -109,22 +111,46 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick, notas}
     const handleCancel = () => {
         setOpen(false);
     }
-
+    //TODO: Consertar o label correto
     const handleChangeSelect = (value: string) => {
         setSelectValue(value);
         const data = oferta.historico.filter((modalidade: Modalidade) => modalidade.no_concorrencia === value);
         const dataChart: { x: string, y: number }[] = [];
         labelsChart.forEach((label) => {
             for (let i = 0; i < data.length; i++) {
-                if (data[i].dia.getDay !== +label) {
-                    continue;
+                const dia = new Date(data[i].dia)
+                console.log(dia.getDate(), +label - 2);
+                if (dia.getDate() === (+label - 2)) {
+                    dataChart.push({x: `Dia ${label}`, y: 550});
                 }
-                dataChart.push({x: `Dia ${label}`, y: +data[i].nu_nota_corte});
+
             }
         });
+        console.log(dataChart.length);
+        if (dataChart.length === 0){
+            return;
+        }
         setDados(dataChart);
 
     }
+
+    const calcularPontuacaoPonderada = (oferta: OfertaCurso): number => {
+        const { notas } = userStore;
+        const pesoCN = parseFloat(oferta.nu_peso_cn);
+        const pesoCH = parseFloat(oferta.nu_peso_ch);
+        const pesoM = parseFloat(oferta.nu_peso_m);
+        const pesoL = parseFloat(oferta.nu_peso_l);
+        const pesoR = parseFloat(oferta.nu_peso_r);
+
+        const pontuacaoPonderada =
+            (notas.cienciasNatureza * pesoCN) +
+            (notas.cienciasHumanas * pesoCH) +
+            (notas.matematica * pesoM) +
+            (notas.linguagens * pesoL) +
+            (notas.redacao * pesoR);
+
+        return pontuacaoPonderada;
+    };
 
     return (
         <>
