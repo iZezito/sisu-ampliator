@@ -20,30 +20,30 @@ export class UserStore {
         console.log(this.formData);
     }
 
-    // onSubmit = () => {
-    //     message.loading({ content: 'Loading...', key: 'create-user' });
-    //     this.userService.create(this.formData)
-    //         .then(() => {
-    //             message.success({ content: 'Usuário criado com sucesso!', key: 'create-user', duration: 2 });
-    //         })
-    //         .catch((err) => {
-    //             message.error({ content: 'Erro ao criar usuário!', key: 'create-user', duration: 2 })
-    //             console.log(err);
-    //         });
-    // };
+    onSubmit = () => {
+        message.loading({ content: 'Loading...', key: 'create-user' });
+        this.userService.create(this.formData)
+            .then(() => {
+                message.success({ content: 'Usuário criado com sucesso!', key: 'create-user', duration: 2 });
+            })
+            .catch((err) => {
+                message.error({ content: 'Erro ao criar usuário!', key: 'create-user', duration: 2 })
+                console.log(err);
+            });
+    };
 
 
-    async onSubmit() {
-        await this.rootStore.fetchData(
-            this.userService.create<User>(this.formData),
-            () => {
-                message.success('Usuário cadastrado com sucesso!');
-            },
-            () => {
-                message.error('Erro ao cadastrar usuário!');
-            }
-        );
-    }
+    // async onSubmit() {
+    //     await this.rootStore.fetchData(
+    //         this.userService.create<User>(this.formData),
+    //         () => {
+    //             message.success('Usuário cadastrado com sucesso!');
+    //         },
+    //         () => {
+    //             message.error('Erro ao cadastrar usuário!');
+    //         }
+    //     );
+    // }
 
     async getMyNotas() {
         await this.rootStore.fetchData(

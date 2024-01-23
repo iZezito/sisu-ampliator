@@ -10,9 +10,9 @@ export class RootStore {
     authStore: AuthStore;
     userStore: UserStore;
   constructor() {
+    this.userStore = new UserStore(this);
     this.sisuStore = new SisuStore(this);
     this.authStore = new AuthStore(this);
-    this.userStore = new UserStore(this);
     makeAutoObservable(this);
   }
 

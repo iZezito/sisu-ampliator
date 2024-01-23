@@ -4,13 +4,13 @@ import {useRootStore} from "../stores/RootStore.tsx";
 import {Empty, Flex, FloatButton,Row, Spin} from "antd";
 import {DadosModalidade} from "../stores/sisu";
 import CardOferta from "../components/CardOferta/CardOferta.tsx";
-import {AiOutlinePlus} from "react-icons/ai";
+import {AiOutlinePlus, AiFillSetting, AiOutlineLogout} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import TituloPagina from "../components/TituloPagina.tsx";
 
 const Home: React.FC = observer(() => {
     const navigate = useNavigate();
-    const {sisuStore, userStore} = useRootStore();
+    const {sisuStore, userStore, authStore } = useRootStore();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -24,6 +24,11 @@ const Home: React.FC = observer(() => {
 
     const navToAdd = () => {
         navigate('/addOferta');
+    }
+
+    const handleLogout = () => {
+        authStore.logout();
+        navigate('/login');
     }
 
     return (
@@ -42,10 +47,19 @@ const Home: React.FC = observer(() => {
                     )}
                 </Flex>
             </Row>
-            <FloatButton icon={<AiOutlinePlus/>} type={'primary'} style={{height: '7%', width: '3.5%'}}
-                         tooltip={'Adiconar nova oferta'}
-                         onClick={navToAdd}
-            />
+            <FloatButton.Group
+                trigger="hover"
+                type="primary"
+                style={{ right: 40 }}
+                icon={<AiFillSetting />}
+            >
+                <FloatButton icon={<AiOutlineLogout />} onClick={handleLogout} tooltip={'Sair'}/>
+                <FloatButton icon={<AiOutlinePlus/>} tooltip={'Adiconar nova oferta'} onClick={navToAdd}/>
+            </FloatButton.Group>
+            {/*<FloatButton icon={} type={'primary'} style={{height: '7%', width: '3.5%'}}*/}
+            {/*             tooltip={'Adiconar nova oferta'}*/}
+            {/*             onClick={navToAdd}*/}
+            {/*/>*/}
         </React.Fragment>
     );
 });

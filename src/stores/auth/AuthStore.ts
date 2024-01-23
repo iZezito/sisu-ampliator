@@ -29,7 +29,8 @@ class AuthStore {
             localStorage.setItem('token', response.data.token);
             this.isAuth = true;
             this.token = response.data.token;
-            message.success({ content: 'Login efetuado com sucesso!', key: 'login', duration: 2, onClose: () => navigate('/') });
+            message.success({ content: 'Login efetuado com sucesso!', key: 'login', duration: 2 });
+            navigate('/');
         } catch (e) {
             message.error({ content: 'Erro ao efetuar login!', key: 'login', duration: 2 });
             console.log(e);

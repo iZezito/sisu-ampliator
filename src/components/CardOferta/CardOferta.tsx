@@ -34,12 +34,10 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
     const [selectOptions, setSelectOptions] = useState<object[]>([]);
     const [selectValue, setSelectValue] = useState<string>('');
     const [dados, setDados] = useState<{ x: string, y: number }[]>(
-        [{x: 'Dia 23', y: 543},
-            {x: 'Dia 24', y: 547},
-            {x: 'Dia 25', y: 550},]);
+        [{x: 'Dia 23', y: 0},]);
     const [media, setMedia] = useState<number>(545);
 
-    const labelsChart = ['23', '24', '25'];
+    const labelsChart = ['22', '23', '24', '25', '26'];
 
     const options = {
         responsive: true,
@@ -55,7 +53,7 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
         scales: {
             x: {
                 type: 'category',
-                labels: ['Dia 23', 'Dia 24', 'Dia 25'],
+                labels: ['Dia 22', 'Dia 23', 'Dia 24', 'Dia 25', 'Dia 26'],
             },
             y: {
                 beginAtZero: false,
@@ -119,9 +117,10 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
         labelsChart.forEach((label) => {
             for (let i = 0; i < data.length; i++) {
                 const dia = new Date(data[i].dia)
-                console.log(dia.getDate(), +label - 2);
-                if (dia.getDate() === (+label - 2)) {
-                    dataChart.push({x: `Dia ${label}`, y: 550});
+                console.log(dia.getDate(), +label);
+                if (dia.getDate() === +label && data[i].nu_nota_corte !== null) {
+                    dataChart.push({x: `Dia ${label}`, y: +data[i].nu_nota_corte});
+                    break;
                 }
 
             }
@@ -135,7 +134,7 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
     }
 
     const calcularPontuacaoPonderada = (oferta: OfertaCurso): number => {
-        const { notas } = userStore;
+        const { minhasNotas } = userStore;
         const pesoCN = parseFloat(oferta.nu_peso_cn);
         const pesoCH = parseFloat(oferta.nu_peso_ch);
         const pesoM = parseFloat(oferta.nu_peso_m);
@@ -143,13 +142,15 @@ const CardOferta: React.FC<CardProps> = ({oferta, loading, onButtonClick}) => {
         const pesoR = parseFloat(oferta.nu_peso_r);
 
         const pontuacaoPonderada =
-            (notas.cienciasNatureza * pesoCN) +
-            (notas.cienciasHumanas * pesoCH) +
-            (notas.matematica * pesoM) +
-            (notas.linguagens * pesoL) +
-            (notas.redacao * pesoR);
+            (minhasNotas.cienciasNatureza * pesoCN) +
+            (minhasNotas.cienciasHumanas * pesoCH) +
+            (minhasNotas.matematica * pesoM) +
+            (minhasNotas.linguagens * pesoL) +
+            (minhasNotas.redacao * pesoR);
 
-        return pontuacaoPonderada;
+        const mediaPonderada = pontuacaoPonderada / (pesoCN + pesoCH + pesoM + pesoL + pesoR);
+        console.log('Média Ponderada:', mediaPonderada);
+        return mediaPonderada;
     };
 
     return (
